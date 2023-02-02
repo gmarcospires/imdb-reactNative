@@ -13,3 +13,6 @@ expo start
 Banco de dados para guardar usuários
 Aprimorar Design
 Página de cadastro
+Criação de mais componentes
+Melhorar a usabilidade
+Adicionar loading
