@@ -1,3 +1,6 @@
+Bem vindo ao meu primeiro desenvolvimento com React Native com Expo! 
+Fique a vontade para registrar melhorias para o projeto.  
+
 ## Getting Started
 
 First, run the development server:
