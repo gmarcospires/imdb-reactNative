@@ -11,17 +11,16 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
-            name='Login'
+            name="Login"
             component={Login}
-            initial={true}
             options={{
               headerShown: false,
             }}
           />
-          <Stack.Screen name='Home' component={Index} />
-          <Stack.Screen name='Details' component={Details} />
+          <Stack.Screen name="Home" component={Index} initial={true} />
+          <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

@@ -6,8 +6,7 @@ import {
   MD2Colors,
   Button,
 } from 'react-native-paper';
-import { StyleSheet, View } from 'react-native';
-import { useResponsiveQuery } from 'react-native-responsive-query';
+import { StyleSheet, View, ScrollView } from "react-native";
 import { trendingWeek as trending } from '../server';
 import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
 
@@ -34,38 +33,6 @@ const Index = ({ navigation }) => {
     });
   }, [page]);
 
-  const { getResponsiveStyles } = useResponsiveQuery();
-  const { dataSet, styleCards } = getResponsiveStyles({
-    initial: {},
-    query: [
-      {
-        minWidth: 320,
-        style: {
-          gridTemplateColumns: 'repeat(2, 1fr)',
-        },
-      },
-      {
-        maxWidth: 768,
-        minWidth: 426,
-        style: {
-          gridTemplateColumns: 'repeat(4, 1fr)',
-        },
-      },
-      {
-        minWidth: 769,
-        maxWidth: 1199,
-        style: {
-          gridTemplateColumns: 'repeat(5, 1fr)',
-        },
-      },
-      {
-        minWidth: 1200,
-        style: {
-          gridTemplateColumns: 'repeat(6, 1fr)',
-        },
-      },
-    ],
-  });
   if (!trendingItens) {
     return (
       <View style={styles.page}>
@@ -74,17 +41,17 @@ const Index = ({ navigation }) => {
     );
   }
   return (
-    <View style={styles.page}>
-      <Text variant='titleLarge' style={styles.titleText}>
+    <ScrollView style={styles.page}>
+      <Text variant="titleLarge" style={styles.titleText}>
         Bem Vindo!
       </Text>
       <Card
         style={styles.cardPrincipal}
-        id={'cardPrincipal'}
+        id={"cardPrincipal"}
         onPress={() =>
-          navigation.navigate('Details', {
+          navigation.navigate("Details", {
             itemId: trendingItens?.results?.[0]?.id || -1,
-            type: trendingItens?.results?.[0]?.media_type || '',
+            type: trendingItens?.results?.[0]?.media_type || "",
           })
         }
       >
@@ -93,23 +60,24 @@ const Index = ({ navigation }) => {
             <Card.Cover
               source={{
                 uri: trendingItens.results[0].backdrop_path
-                  ? 'https://image.tmdb.org/t/p/original' +
+                  ? "https://image.tmdb.org/t/p/original" +
                     trendingItens.results[0].backdrop_path
-                  : '',
+                  : "",
               }}
+              
             />
             <Card.Content style={styles.cardContent}>
-              <Text variant='titleLarge' style={styles.text}>
-                {trendingItens.results[0].name || ''}
+              <Text variant="titleLarge" style={styles.text}>
+                {trendingItens.results[0].name || ""}
               </Text>
-              <Text variant='bodyMedium' style={styles.text}>
+              <Text variant="bodyMedium" style={styles.text}>
                 {trendingItens.results[0].overview}
               </Text>
             </Card.Content>
           </>
         ) : null}
       </Card>
-      <View style={{ ...styles.groupCards, ...styleCards }} dataSet={dataSet}>
+      <View style={styles.groupCards}>
         {trendingItens?.results
           ? trendingItens.results.map((item, index) => {
               const { name, title, overview, poster_path, id, media_type } =
@@ -117,10 +85,10 @@ const Index = ({ navigation }) => {
               return (
                 <Card
                   style={styles.cards}
-                  id={''}
+                  id={""}
                   key={index}
                   onPress={() =>
-                    navigation.navigate('Details', {
+                    navigation.navigate("Details", {
                       itemId: id,
                       type: media_type,
                     })
@@ -129,13 +97,13 @@ const Index = ({ navigation }) => {
                   <Card.Cover
                     source={{
                       uri: poster_path
-                        ? 'https://image.tmdb.org/t/p/original' + poster_path
-                        : '',
+                        ? "https://image.tmdb.org/t/p/original" + poster_path
+                        : "",
                     }}
                   />
                   <Card.Content style={styles.cardContent}>
-                    <Text variant='titleSmall' style={styles.text}>
-                      {name || title || '-'}
+                    <Text variant="titleSmall" style={styles.text}>
+                      {name || title || "-"}
                     </Text>
                   </Card.Content>
                 </Card>
@@ -145,8 +113,13 @@ const Index = ({ navigation }) => {
       </View>
       {trendingItens.total_pages === trendingItens.page ? null : (
         <Button
-          style={{ maxWidth: '30vw', alignSelf: 'center', marginTop: 20 }}
-          mode='contained'
+          style={{
+            maxWidth: 150,
+            alignSelf: "center",
+            marginTop: 20,
+            marginBottom: 200,
+          }}
+          mode="contained"
           onPress={() => {
             setPage((page) => page + 1);
           }}
@@ -154,7 +127,7 @@ const Index = ({ navigation }) => {
           Veja Mais
         </Button>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -162,55 +135,55 @@ export default Index;
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#fff',
-    color: '#000',
+    backgroundColor: "#fff",
+    color: "#000",
     margin: 10,
     padding: 10,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
     flex: 1,
   },
   titleText: {
     fontSize: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     marginTop: 20,
     marginBottom: 20,
-    color: '#000',
-    fontFamily: 'Inter_400Regular',
-    fontWeight: 'bold',
+    color: "#000",
+    fontFamily: "Inter_400Regular",
+    fontWeight: "bold",
   },
   cardPrincipal: {
-    backgroundColor: '#DCDCDC',
+    backgroundColor: "#DCDCDC",
   },
   cardContent: {
     marginTop: 10,
     padding: 10,
     borderRadius: 10,
-    flex: 1,
     gap: 10,
-    maxHeight: '100%',
-    minHeight: '100%',
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
   },
   cards: {
+    flex: 1,
+    flexBasis: "20%",
+    margin: 10,
+    minWidth: 150,
     maxWidth: 150,
-    minWidth: 90,
-    height: '100%',
-    backgroundColor: '#DCDCDC',
-    fontFamily: 'Inter_400Regular',
+    height: 300,
+    backgroundColor: "#DCDCDC",
+    fontFamily: "Inter_400Regular",
   },
   text: {
-    color: '#000',
-    fontFamily: 'Inter_400Regular',
+    color: "#000",
+    fontFamily: "Inter_400Regular",
   },
   groupCards: {
-    display: 'grid',
-    flexDirection: 'collumn',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    flexWrap: "wrap",
     marginTop: 20,
-    gap: 15,
-    height: 'auto',
-    justifyContent: 'space-between',
-    fontFamily: 'Inter_400Regular',
+    width: "auto",
+    fontFamily: "Inter_400Regular",
   },
 });
